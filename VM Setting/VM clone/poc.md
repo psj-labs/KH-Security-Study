@@ -145,7 +145,8 @@ VMware Workstation을 다시 확인하면
 현재 설정은 원본 가상머신의 정보가 그대로 복제된 상태입니다.
 
 - IP Address: `192.168.10.153`
-- MAC Address: `00:50:56:26:F8:59`
+- MAC Address: `00:50:56:26:F8:59`(MAC Address는 리눅스 접속 전에 VMware에서 설정한 것이므로 바뀐 MAC Address가 적용되어 나왔습니다)
+
 
 ![11](/VM%20Setting/VM%20clone/imgs/11.png)
 
