@@ -1,0 +1,149 @@
+# OSI 7 Layer & Ethernet Network 이해
+
+- **네트워크 통신은 복잡한 과정을 체계화한 계층 모델(OSI, TCP/IP)을 따르며, 현대 LAN의 표준인 Ethernet은 효율적인 매체 접근 제어와 장비 확장을 통해 발전해 왔습니다.**
+
+---
+
+## 1-1 OSI 7계층 (Open System Interconnection) 
+
+OSI 모델은 1984년 ISO 7489로 표준화되었으며, 통신 과정을 7개의 논리적 단계로 분리합니다.
+
+| 계층 (Layer) | 이름 | 주요 역할 및 특징 | 데이터 단위 (PDU) | 관련 장비 및 프로토콜 |
+|:---:|:---|:---|:---:|:---|
+| **L7** | **Application** | 사용자 인터페이스, UI, 응용 프로그램 서비스 제공 | Data | HTTP, FTP, SMTP, 소켓 프로그래밍 |
+| **L6** | **Presentation** | 데이터 형식 설정, 암호화 및 압축 담당 | Data | JPEG, MPEG, SSL/TLS |
+| **L5** | **Session** | 응용 프로세스 간의 통신 세션 유지 및 관리 | Data | RPC, NetBIOS |
+| **L4** | **Transport** | 패킷 순서 보장, 손상 복구(TCP), 수신자 응답(Ack) 담당 | Segment | **TCP**, UDP |
+| **L3** | **Network** | 논리적 주소(IP) 식별 및 최적의 경로 설정(Routing) | Packet | **IP**, **Router**, ICMP |
+| **L2** | **Data Link** | 하드웨어적 식별(MAC), 프레임 전송, CRC 에러 체크 | Frame | **Switch**, **Bridge**, 랜카드(NIC) |
+| **L1** | **Physical** | 비트(Bit) 단위 신호 전송, 케이블 및 물리적 연결 담당 | Bit | **Repeater**, **Hub**, Cable |
+
+
+
+---
+
+## 1-2 TCP/IP 모델 
+
+TCP/IP 모델은 1973년 INWD 컨퍼런스에서 조직된 이후 발전해 왔으며, OSI 모델보다 실용적인 구조를 가집니다. 현재는 전송 계층(Transport)까지 운영체제(OS)에 포함되어 구현됩니다.
+
+| 계층 이름 | OSI 대응 계층 | 주요 기능 및 설명 | 핵심 프로토콜 |
+|:---:|:---:|:---|:---|
+| **Application** | L5 ~ L7 | OSI의 세션, 표현, 응용 계층을 통합한 영역입니다. UI 및 응용 프로그램 서비스를 담당합니다. | HTTP, DNS, Telnet, FTP |
+| **Transport** | L4 | 상위 프로토콜 구분 및 패킷 전송의 신뢰성을 보장합니다. | **TCP**, UDP |
+| **Internet** | L3 | 네트워크 간 패킷 라우팅을 담당하여 목적지까지 데이터를 전달합니다. | **IP**, ARP, RARP |
+| **Network Access** | L1 ~ L2 | 물리적인 네트워크 매체를 통한 데이터 전송을 담당합니다. | **Ethernet**, MAC, PPP |
+
+---
+
+## 2. Network Topology와 통신 방식
+
+- 토폴로지는 네트워크 구성 요소들의 물리적/논리적 연결 방식을 의미합니다.
+
+### 토폴로지의 종류
+
+![network topology](/Network/imgs/Network%20Topology.png)
+
+- **Bus (버스형):** 초기 Ethernet에서 사용된 공유 매체 구조로 현재 LAN 환경에서는 거의 사용되지 않습니다.
+- **Star (스타형):** 현대 LAN의 기본 구조로 스위치를 중심으로 단말이 연결되는 가장 보편적인 토폴로지입니다.
+- **Ring (링형):** 충돌은 방지할 수 있으나 확장성과 장애 대응 측면에서 현대 LAN에는 부적합합니다.
+
+### 패킷 전송의 종류
+| 유형 | 특징 | 주소 예시 |
+|:---|:---|:---|
+| **Unicast** | 1:1 특정 노드 간 통신 | 특정 IP/MAC 주소 |
+| **Broadcast** | 1:N 불특정 다수 통신 | FF:FF:FF:FF:FF:FF |
+| **Multicast** | 1:N 특정 그룹 통신 | D Class IP 주소 |
+
+---
+
+## 3. Ethernet과 CSMA/CD 메커니즘
+
+- **Ethernet**은 로버트 매트칼프에 의해 최초 설계된 버스형 네트워크의 대표적인 기술입니다.
+
+### CSMA/CD (Carrier Sense Multiple Access with Collision Detect)
+- IEEE 802.3 네트워크에서 매체 사용을 위한 제어 구조 방식입니다.
+- **Carrier Sense:** 케이블의 전송 신호를 감시합니다.
+- **Multiple Access:** 누구나 매체에 접근할 수 있습니다.
+- **Collision Detect:** 데이터 충돌을 감지하면 전송을 취소하고 임의의 시간만큼 대기 후 재전송합니다.
+- **특징:** 10Mbps 속도에서 최소 패킷 길이는 **64바이트**여야 충돌을 감지할 수 있습니다.
+
+
+# Ethernet 성능 분석: 노드 수와 유효 대역폭의 관계
+
+- **Ethernet 네트워크에서 노드 수의 증가는 단순히 트래픽의 증가를 넘어, 매체 접근 제어 방식(CSMA/CD)에 따른 급격한 성능 변화를 야기합니다.**
+
+
+---
+
+## 성능 그래프 분석 (Total Packets vs. # of Node)
+
+이 그래프는 네트워크 내의 노드 수가 증가함에 따라 실제 성공적으로 전송되는 **전체 패킷량(유효 대역폭)**이 어떻게 변하는지를 보여줍니다.
+
+![csma/cd](/Network/imgs/csma:cd.png)
+
+### 구간별 상세 설명
+1.  **통신의 시작 (Node = 2):**
+    * 네트워크 통신은 최소 2개 이상의 노드가 존재할 때 비로소 시작됩니다.
+    * 초기에는 노드가 추가될수록 전송되는 데이터 양이 선형적으로 증가합니다.
+
+2.  **임계점 (Threshold):**
+    * 네트워크가 수용할 수 있는 최대 효율 지점입니다. 
+    * 이때까지는 노드가 늘어나는 만큼 전체 패킷량도 함께 늘어나지만, 공유 매체(Bus)를 사용하기 때문에 각 노드가 개별적으로 점유할 수 있는 대역폭은 점차 줄어듭니다.
+
+3.  **급격한 성능 저하 (Sharp Drop):**
+    * 노드 수가 일정 수준을 넘어서면 그래프가 급격히 꺾이며 하락합니다.
+    * 이는 노드 수가 너무 많아져서 발생하는 **충돌(Collision)** 때문입니다.
+
+
+---
+
+## 성능 저하의 핵심 원인: CSMA/CD
+
+Ethernet의 매체 접근 제어 방식인 **CSMA/CD**의 특성이 이러한 그래프를 만듭니다.
+
+* **다중 접속(Multiple Access):** 모든 시스템이 하나의 회선에 연결되어 데이터를 보낼 기회를 엿봅니다.
+* **충돌 감지(Collision Detect):** 여러 노드가 동시에 데이터를 보내려다 충돌이 발생하면, 보내던 신호를 즉시 취소하고 임의의 시간(Back-off)만큼 기다린 후 다시 시도합니다.
+* **성능 폭락의 메커니즘:**
+    * 노드 수가 너무 많아지면 데이터를 보내는 시간보다 **충돌을 감지하고 대기하는 시간**이 더 길어집니다.
+    * 결과적으로 회선은 계속 '충돌' 중이거나 '대기' 중인 상태가 되어, 실제 성공적으로 전송되는 패킷(Total Packets)은 거의 0에 수렴하게 됩니다.
+
+---
+
+## MAC Address(Media Access Control)
+
+- MAC OS에서의 `MAC Address`
+
+![macaddressmac](/Network/imgs/MAC%20Address(Mac).png)
+
+- Windows에서의 `MAC Address`
+
+![macaddresswin](/Network/imgs/MAC%20Address(Win).png)
+
+
+- 노드를 구분하는 48비트(6바이트)의 고유 식별 주소입니다.
+- **구성:** 3바이트의 OUI(제조사 식별자)와 3바이트의 NIC(고유 시리얼)로 구성됩니다.
+- NIC에 영구적으로 할당되나 진단 프로그램을 통해 변경이 가능합니다.
+
+- 다음은 실제 MAC주소가 할당된 기기 `NIC` 사진입니다.
+
+![NIC](/Network/imgs/NIC.png)
+
+---
+
+## Ethernet의 확장 및 하드웨어
+
+- 단일 세그먼트의 한계를 극복하기 위해 계층별 장비를 통해 네트워크를 확장합니다.
+
+### 주요 연결 장비
+- **Repeater (L1):** 신호를 증폭하는 물리 장비입니다. 90년대 더미 허브(Dummy HUB)가 이 역할을 수행했습니다.
+- **Bridge / Switch (L2):** MAC 주소 기반으로 패킷을 필터링합니다. 멀티 포트 브리지가 곧 **스위치 허브**입니다.
+    - **5가지 기능:** Learning, Filtering, Forwarding, Flooding, Aging
+- **Router (L3):** IP를 이용해 네트워크를 분할하고 연결합니다. RIP, OSPF와 같은 경로 배정 알고리즘을 사용합니다.
+
+| 장비명 | 운영 계층 | 주요 식별자 | 관리 테이블 | 핵심 역할 |
+|:---:|:---:|:---:|:---:|:---|
+| **리피터 (Repeater)** | Physical (L1) | 전기 신호 | **없음** | 신호 증폭 및 거리 연장 |
+| **더미 허브 (Hub)** | Physical (L1) | 전기 신호 | **없음** | 신호 복제 및 다수 시스템 연결 |
+| **브릿지 (Bridge)** | Data Link (L2) | MAC 주소 | **Bridge Table** | MAC 기반 패킷 필터링 및 세그먼트 연결 |
+| **스위치 (Switch)** | Data Link (L2) | MAC 주소 | **Bridge Table** | 포트별 독립 대역폭 제공 및 전송 효율화 |
+| **라우터 (Router)** | Network (L3) | IP 주소 | **Routing Table** | 최적 경로 설정 및 네트워크 분할 |
