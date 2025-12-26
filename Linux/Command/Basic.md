@@ -232,6 +232,17 @@
 
 ---
 
+## which
+
+| 옵션 | 형식 | 설명 | 예시 |
+|---|---|---|---|
+| 기본 | `which command` | 실행 파일 경로 검색 | `which ls` |
+| 전체 | `which -a command` | PATH 내 모든 실행 파일 표시 | `which -a python` |
+| 도움말 | `which --help` | 도움말 출력 | `which --help` |
+| 버전 | `which --version` | 버전 정보 출력 | `which --version` |
+
+---
+
 ## tar (압축 / 백업)
 
 | 구분 | 옵션 | 형식 | 설명 | 예시 |
