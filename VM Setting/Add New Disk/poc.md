@@ -54,6 +54,8 @@
   - 서버 환경에서 주로 사용
   - IDE보다 빠르고 안정적
   - 서버용 리눅스 및 윈도우 서버에서 많이 사용됨
+  - #### SCSI를 추가하고 부팅하면 에러가 나는 경우가 있으며(Rocky Linux기준) 이에대한 원인 및 해결법을 작성하였습니다.
+  - - https://github.com/psj-labs/KH-Security-Study/tree/main/VM%20Setting/SCSI%20Problem
 
 - `SATA`
   - 가장 대중적인 하드디스크 / SSD 연결 방식
