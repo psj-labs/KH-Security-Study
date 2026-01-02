@@ -7,4 +7,5 @@
 ## 목차
 - `01. Network Basic`
 - `02. OSI 7Layer & Ethernet`
+- `02.2. TCPIP Data Flow`
 - `03. IP와 Routing 과정`
